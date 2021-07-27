@@ -1,19 +1,22 @@
-// Literal Types
-var combine = function (input1, input2, resultConversion) {
-    var result;
-    if ((typeof input1 === "number" && typeof input2 === "number") ||
-        resultConversion === "as-number") {
-        // Putting the + infront of input forces the conversion of input into a number
-        result = +input1 + +input2;
-    }
-    else {
-        result = input1.toString() + input2.toString();
-    }
-    return result;
+var add = function (n1, n2) {
+    return n1 + n2; // TS infers that the return type is a number
 };
-var combinedAges = combine(30, 26, "as-number");
-console.log(combinedAges);
-var combinedStringAges = combine("30", "26", "as-number");
-console.log(combinedAges);
-var combinedNames = combine("Bitter", "Funk", "as-string");
-console.log(combinedNames);
+// this declares the type of the return to void so there doesnt need a return
+var printResult = function (num) {
+    console.log("Result " + num); // Because there is no return TS infers the type void
+};
+// You can also declare Function types
+// To decalre CallBacks you can do it like so...
+var addAndHandle = function (n1, n2, cb) {
+    var result = n1 + n2;
+    cb(result);
+};
+// decalre the wanted parameter types and return types
+var combineValues;
+combineValues = add; // TS accepts add because it has the required types
+// combineValues = printResult; // TS does not accept this because the types do not match what is decalred before
+// then just like regular JS you can call combineValues just like a function
+console.log(combineValues(2, 3));
+addAndHandle(10, 20, function (result) {
+    console.log(result);
+});
